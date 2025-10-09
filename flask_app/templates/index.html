@@ -9,20 +9,20 @@
             <p>¿Qué esperas para adoptar? ¡Hazlo ahora mismo!</p>
         </div>
         <div class="contenedor-botones">
-            <button type="button" id="aviso-adopcion-btn">
+            <button type="button" id="aviso-adopcion-btn" data-url="{{ url_for('agregar_aviso') }}">
                 Agregar aviso de adopción
             </button>
             <br>
             <br>
-            <button type="button" id="ver-adopciones-btn">
+            <button type="button" id="ver-adopciones-btn" data-url="{{ url_for('listado') }}">
                 Ver listado de adopciones
             </button>
             <br>
             <br>
-            <button type="button" id="estadisticas-btn">
+            <button type="button" id="estadisticas-btn" data-url="{{ url_for('estadisticas') }}">
                 Estadísticas
             </button>
         </div>
-        <script lang="javascript" src="../js/index.js"></script>
-    <body>
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    </body>
 </html>
