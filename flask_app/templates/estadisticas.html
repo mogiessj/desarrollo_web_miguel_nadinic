@@ -2,4 +2,21 @@
 <html lang="es">
     <head>
         <title>Meowl Adopta</title>
+        {% block css %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        {% endblock %}
     </head>
+    <body>
+        {% block content %}    
+        <h1>Estadísticas de avisos de adopción</h1>
+        <div id="grafico1" class="grafico" src="{{ url_for('static', filename='svg/avisos_por_dia.svg') }}" alt="Gráfico 1"></div>
+        <div id="grafico2" class="grafico" src="{{ url_for('static', filename='svg/avisos_por_tipo.svg') }}" alt="Gráfico 2"></div>
+        <div id="grafico3" class="grafico"src="{{ url_for('static', filename='svg/avisos_tipo_mes.svg') }}" alt="Gráfico 3"></div>
+        <button type="button" id="volver-inicio-btn" data-url="{{ url_for('index') }}">
+            Volver al inicio
+        </button>
+        {% endblock content %}
+    </body>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ url_for('static', filename='js/estadisticas.js') }}"></script>
+</html>

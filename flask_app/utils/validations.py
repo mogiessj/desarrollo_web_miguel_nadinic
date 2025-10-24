@@ -1,75 +1,80 @@
 import re
 import filetype
 from datetime import datetime
+from sqlalchemy import text
 
-def validar_region_y_comuna(cursor, region_id, comuna_id):
+def validar_region_y_comuna(session, region_id, comuna_id):
     errores = []
 
-    # Validar región
-    cursor.execute("SELECT id FROM region WHERE id = %s", (region_id,))
-    region = cursor.fetchone()
+    #validar región
+    region = session.execute(
+        text("SELECT id FROM region WHERE id = :id"),
+        {"id": region_id}
+    ).first()
     if not region:
         errores.append("La región seleccionada no existe.")
-        return errores  # no hace falta seguir si no existe la región
+        return errores
 
-    # Validar comuna
-    cursor.execute("SELECT id, region_id FROM comuna WHERE id = %s", (comuna_id,))
-    comuna = cursor.fetchone()
+    #validar comuna
+    comuna = session.execute(
+        text("SELECT id, region_id FROM comuna WHERE id = :id"),
+        {"id": comuna_id}
+    ).first()
     if not comuna:
         errores.append("La comuna seleccionada no existe.")
         return errores
 
-    # Validar relación
-    if comuna["region_id"] != region["id"]:
+    #validar relación
+    if comuna.region_id != region.id:
         errores.append("La comuna no pertenece a la región seleccionada.")
 
     return errores
 
-def validar_sector(cursor, sector):
+def validar_sector(sector):
     error = []
     if len(sector) > 100:
         error.append("El sector no puede tener más de 100 caracteres.")
     return error
 
-def validar_nombre(cursor, nombre):
+def validar_nombre(nombre):
     error = []
     if len(nombre) <= 3 or len(nombre) > 200:
         error.append("Nombre inválido")
     return error
 
-def validar_email(cursor, email):
+def validar_email(email):
     error = []
     email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
     if not re.match(email_regex, email) or len(email) < 0:
         error.append("Email inválido")
     return error
 
-def validar_celular(cursor, celular):
+def validar_celular(celular):
     error = []
-    celular_regex = r'^\+?56?9[0-9]{8}$'
+    celular_regex = r'^\+?56?9\.?\d{8}$'
     if not re.match(celular_regex, celular):
         error.append("Celular inválido")
     return error
 
-def validar_tipo(cursor, tipo):
+def validar_tipo(tipo):
     error = []
     if tipo not in ['perro', 'gato']:
         error.append("Tipo inválido")
     return error
 
-def validar_cantidad(cursor, cantidad):
+def validar_cantidad(cantidad):
     error = []
-    if not cantidad.isdigit() or int(cantidad) <= 1:
+    if not cantidad.isdigit() or int(cantidad) < 1:
         error.append("Cantidad inválida")
     return error
 
-def validar_edad(cursor, edad):
+def validar_edad(edad):
     error = []
     if not edad.isdigit() or int(edad) < 1:
         error.append("Edad inválida")
     return error
 
-def validar_unidad(cursor, unidad):
+def validar_unidad(unidad):
     error = []
     if unidad not in ['meses', 'años']:
         error.append("Unidad inválida")

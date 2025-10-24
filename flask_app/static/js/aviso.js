@@ -110,7 +110,7 @@ window.addEventListener('DOMContentLoaded', function() {
         if (!isValid) alert(msg);
         return isValid;
     };
-
+/*
     // Botón agregar aviso
     btnAgregarAviso.addEventListener('click', () => {
         if (!validarForm()) return;
@@ -132,5 +132,5 @@ window.addEventListener('DOMContentLoaded', function() {
             form.style.display = 'block';
         }
     });
-
+*/
 });

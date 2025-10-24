@@ -5,7 +5,17 @@
     </head>
     <body>
         <h1>Agregar aviso de adopción</h1>
+        {% if errores %}
+        <div class="errores">
+            <ul>
+                {% for error in errores %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         <form class="formulario" id="aviso-form" action="/agregar_aviso" method="POST" enctype="multipart/form-data">
+            
             <h2>¿Dónde?</h2>
             <label> Región:</label>
             <select id="region-select" name="region" required>
@@ -75,6 +85,7 @@
             </div>
             <br><br>
             <button type="submit" id="btn-agregar-aviso">Agregar este aviso de adopción</button>
+            
         </form>
         <script src="{{ url_for('static', filename='js/aviso.js') }}"></script>
         <script src="{{ url_for('static', filename='js/region_comuna.js') }}"></script>
