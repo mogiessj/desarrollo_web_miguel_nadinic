@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Galería de Fotos</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/> 
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+
+    <h1>Galería de Fotos</h1>
+    
+   <div th:each="foto : ${fotos}" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+    
+    <div>
+        <img th:src="@{/}+${#strings.substringAfter(foto.rutaArchivo, 'static/')}" 
+             alt="Foto de Aviso" style="max-width: 200px; height: auto;"/>
+    </div>
+
+    <div>
+        <p><strong>ID Foto:</strong> <span th:text="${foto.idFoto}"></span></p>
+        
+        <p><strong>Fecha Ingreso Aviso:</strong> <span th:text="${#temporals.format(foto.fechaIngresoAviso, 'dd-MM-yyyy HH:mm')}"></span></p>
+        <p><strong>Comuna:</strong> <span th:text="${foto.nombreComuna}"></span></p>
+        <p><strong>Contacto (Email):</strong> <span th:text="${foto.emailContacto}"></span></p>
+    </div>
+
+    <div>
+        <button th:onclick="|pedirMotivoEliminacion(${foto.idFoto})|">
+            Marcar como Eliminada
+        </button>
+    </div>
+</div>
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>
